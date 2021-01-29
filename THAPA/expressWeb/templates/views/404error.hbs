@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {{>headerlinks}}
+</head>
+<body>
+    {{>navbar}}
+
+ <!-- main header -->
+ <div class="container-fluid main_header">
+    <div class="row">
+        <div class="col-md-10 col-12 mx-auto">
+            <div class="row">
+                <!-- left side div -->
+                <div class="col-md-12 col-12 main_header_left align-items-center">
+                    <figure class="errImg">
+                        <img src="https://image.freepik.com/free-vector/oops-404-error-with-broken-robot-concept-illustration_114360-1932.jpg" alt="shimul" class="img-fluid" title="Sabirul Islam">
+                    </figure>
+                
+                    <p>Welcome To Error Page World</p>
+                    <h1>{{errorMessage}}</h1>
+                    <a href="/"><button>Go Back</button></a>
+                </div>  
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- footer -->
+{{>footer}}
+</body>
+</html>
