@@ -9,6 +9,7 @@ publicRouter.use((req, res, next) => {
 });
 
 publicRouter.use(adminRouter);
+
 /* publicRouter
   .route('/user')
   .all((req, res, next) => {
