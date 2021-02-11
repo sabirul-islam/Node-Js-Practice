@@ -2,10 +2,6 @@ const express = require("express")
 const router = new express.Router()
 const Student = require("../models/students")
 
-router.get('/me', (req, res)=>{
-    res.send("Hello whats up")
-})
-
 router.get('/students', async (req, res)=>{
     try{
         const studentsData = await Student.find()
