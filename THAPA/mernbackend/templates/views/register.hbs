@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {{>headerlink}}
+    <title>Document</title>
+</head>
+<body>
+    {{>navbar}}
+    <div class="container register">
+    <div class="row">
+    
+    <div class="col-md-3 register-left">
+    <img src="images/crud.gif" alt="login now">
+    <h3>Welcome</h3>
+    <p>Please fill all the details carefuly. This form can change your life.</p>
+    <a href="select.php">Check Form</a><br/>
+    </div>
+    
+    <div class="col-md-9 register-right">
+    <div class="tab-content" id="myTabContent">
+    <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+    <h3 class="register-heading">
+    Apply for Company placement
+    </h3>
+    
+    <form action="/register" method="POST">
+    <div class="row register-form">
+    
+    <div class="col-md-6">
+        <div class="form-group">
+        <input type="text" class="form-control" placeholder="First Name" name="firstname" value="" required/>
+        </div>
+
+        <div class="form-group">
+        <input type="email" class="form-control" placeholder="Your Email" name="email" value="" required/>
+        </div>
+        
+        <div class="form-group">
+        <input type="tel" minlength="10" maxlength="10" class="form-control" placeholder="Your Phone *" name="phone" value="" required/>
+        </div>
+        
+        <div class="form-group">
+        <input type="password" class="form-control" placeholder="Password" name="password" value="" required/>
+        </div>
+    </div>
+    
+    <div class="col-md-6">
+        <div class="form-group">
+        <input type="text" class="form-control" placeholder="Last Name" name="lastname" value="" required/>
+        </div>
+    
+        <div class="form-group">
+            <div class="maxl">
+                <label class="radio inline">
+                    <input type="radio" name="gender" value="male" checked>
+                    <span>Male</span>
+                </label>
+                <label class="radio inline">
+                    <input type="radio" name="gender" value="female" checked>
+                    <span>Female</span>
+                </label>
+            </div>
+        </div>
+        
+        <div class="form-group">
+        <input type="text" class="form-control" placeholder="Enter Your Age" name="age" value=""/>
+    
+        <div class="form-group">
+        <input type="password" class="form-control" placeholder="Confirm Password" name="confirmpassword" value="" required/>
+        </div>
+
+        <input type="submit" class="btnRegister" name="submit" value="Register"/>
+    </div>
+    
+    </div>
+    </form>
+    </div>
+    </div>
+    </div>
+    </div>
+    </div>
+        
+    </body>
+</html>
