@@ -10,6 +10,10 @@ router.get("/register", (req, res)=>{
     res.render("register")
 })
 
+router.get("/login", (req, res)=>{
+    res.render("login")
+})
+
 router.post("/register", async (req, res)=>{
     try{
         const password = req.body.password
@@ -35,6 +39,22 @@ router.post("/register", async (req, res)=>{
     }catch(e){
         res.status(500).send(e)
     }   
+})
+
+router.post("/login", async(req, res)=>{
+    try{
+        const email = req.body.email
+        const password = req.body.password
+        const email = await Register.findOne({email:email})
+
+        if(email.email === email && password === email.password){
+            res.render('index')
+        }else{
+            res.status(500).send("invalid login")
+        }
+    }catch(e){
+        res.status(500).send("invalid login")
+    }
 })
 
 module.exports = router
