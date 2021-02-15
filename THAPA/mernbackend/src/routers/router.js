@@ -45,9 +45,9 @@ router.post("/login", async(req, res)=>{
     try{
         const email = req.body.email
         const password = req.body.password
-        const email = await Register.findOne({email:email})
+        const user = await Register.findOne({email:email})
 
-        if(email.email === email && password === email.password){
+        if(user.email === email && password === user.password){
             res.render('index')
         }else{
             res.status(500).send("invalid login")
