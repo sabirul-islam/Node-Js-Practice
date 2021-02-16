@@ -1,6 +1,5 @@
 const express = require("express")
 const path = require("path")
-const bcrypt = require("bcryptjs")
 const hbs = require("hbs")
 require("./db/conn")
 const router = require("./routers/router")
@@ -21,12 +20,12 @@ app.set("views", template_path)
 hbs.registerPartials(partials_path)
 
 
-const securePassword = async (password)=>{
-const passwordHash = await bcrypt.hash(password, 10)
-const passwordMatch = await bcrypt.compare(password, passwordHash)
-console.log(passwordMatch);
-}
-securePassword("shimul")
+// const securePassword = async (password)=>{
+// const passwordHash = await bcrypt.hash(password, 10)
+// const passwordMatch = await bcrypt.compare(password, passwordHash)
+// console.log(passwordMatch);
+// }
+// securePassword("shimul")
 
 
 app.listen(port, ()=>{

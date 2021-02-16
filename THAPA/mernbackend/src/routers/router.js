@@ -1,5 +1,6 @@
 const express = require("express")
 const router = new express.Router
+const bcrypt = require("bcryptjs")
 const Register = require("../models/registers")
 
 router.get("/", (req, res)=>{
@@ -30,8 +31,13 @@ router.post("/register", async (req, res)=>{
                 password: password,
                 confirmpassword: cpassword,
             })
+            console.log(`success part ${registerEmployee}`);
+            const token = await registerEmployee.generateAuthToken()
+            console.log(token);
+
             const registered = await registerEmployee.save()
             res.status(201).render("index")
+            console.log(`page part ${registered}`);
         }else{
             res.send("password not matching")
         }
@@ -45,16 +51,37 @@ router.post("/login", async(req, res)=>{
     try{
         const email = req.body.email
         const password = req.body.password
-        const user = await Register.findOne({email:email})
 
-        if(user.email === email && password === user.password){
+        const user = await Register.findOne({email:email})
+        const isMatch = await bcrypt.compare(password, user.password)
+        console.log(isMatch);
+
+        const token = await user.generateAuthToken()
+            console.log("the token part"+token);
+
+        if(isMatch){
             res.render('index')
         }else{
-            res.status(500).send("invalid login")
+            res.status(500).send("invalid password details")
         }
     }catch(e){
-        res.status(500).send("invalid login")
+        res.status(500).send("invalid login details")
     }
 })
+
+
+// const jwt = require("jsonwebtoken")
+
+// const createToken = async()=>{
+//     const token = await jwt.sign({_id:"dghashgsauywdtscn5sag687ds"}, "mynameismdsabirulislamshimulshumit", {expiresIn:"2 seconds"})
+//     console.log(token);
+
+//     const verify = await jwt.verify(token, "mynameismdsabirulislamshimulshumit")
+//     console.log(verify);
+// }
+// createToken()
+
+
+
 
 module.exports = router
