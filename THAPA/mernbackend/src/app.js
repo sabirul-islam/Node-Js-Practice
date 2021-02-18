@@ -38,6 +38,26 @@ app.get("/secret", auth, (req, res)=>{
     res.render("secret")
 })
 
+app.get("/logout", auth, async (req, res)=>{
+    try {
+        console.log(req.user);
+        // single logout
+        // req.user.tokens = req.user.tokens.filter((currentElement)=>{
+        //     return currentElement.token !== req.token
+        // })
+
+        // All logout
+        req.user.tokens = []
+
+        res.clearCookie("jwt")
+        console.log('logout successfully');
+        await req.user.save()
+        res.render('login')
+    } catch (error) {
+        res.status(500).send(error)
+    }
+})
+
 app.get("/register", (req, res)=>{
     res.render("register")
 })
@@ -63,16 +83,18 @@ app.post("/register", async (req, res)=>{
                 confirmpassword: cpassword,
             })
             console.log(`success part ${registerEmployee}`);
+            
             const token = await registerEmployee.generateAuthToken()
             console.log("the token part"+token);
 
-            res.cookie("jwt", token, {
-                expires: new Date(Date.now() + 100000),
-                httpOnly: true
-            })
-            console.log(cookie);
+            // res.cookie("jwt", token, {
+            //     expires: new Date(Date.now() + 100000),
+            //     httpOnly: true
+            // })
+            // console.log(cookie);
 
             const registered = await registerEmployee.save()
+            console.log(`the page part ${registered}`);
             res.status(201).render("index")
             console.log(`the page part ${registered}`);
         }else{
