@@ -4,11 +4,11 @@ const router = express.Router()
 require('../db/conn')
 const User = require('../model/userSchema')
 
-router.get("/", (req,res)=>{
+router.get("/", (req, res)=>{
     res.send(`Hello from home`)
 })
 
-router.post("/register", (req,res)=>{
+/*router.post("/register", (req,res)=>{
     const { name, email, phone, work, password, cpassword } = req.body
 
     if (!name || !email || !phone || !work || !password || !cpassword) {
@@ -23,18 +23,82 @@ router.post("/register", (req,res)=>{
 
         const user = new User({name:name, email:email, phone:phone, work:work, password:password, cpassword:cpassword})
 
-        user.save().then(()=>{
+        user.save()
+        .then(()=>{
             console.log("success");
             res.status(201).json({message: "user registered successfuly"})
-        }).catch((err)=>res.status(500).json({error: `registration failed ${err}.`}))
+        })
+        .catch((err)=>res.status(500).json({error: `registration failed ${err}.`}))
     }).catch((err)=>console.log(err))
 
+    // res.json({message: req.body})   
+})*/
 
-    // res.json({message: req.body})
-   
+// User registration router
+router.post("/register", async (req,res)=>{
+    
+    //destructuring
+    const { name, email, phone, work, password, cpassword } = req.body
+
+    // validation check
+    if (!name || !email || !phone || !work || !password || !cpassword) {
+        return res.status(422).json({error: "plz fillout the missing field"})
+    }
+
+    try {
+        // finding email
+        const userExist = await User.findOne({email:email})
+
+        // email existence check
+        if(userExist){
+            return res.status(422).json({error: "email already exist"})
+        }
+
+        // creating new user
+        const user = new User({name, email, phone, work, password, cpassword})
+        
+        // saving user
+        await user.save()
+
+        res.status(201).json({message: "user registered successfuly"})
+        
+    } catch (error) {
+        console.log(error);
+    }  
 })
 
-router.get("/about", /*middleware,*/ (req,res)=>{
+// User login router
+router.post('/signin', async (req, res)=>{
+    try {
+        // destructuring
+        const { email, password } = req.body
+
+        // validation check
+        if(!email || !password){
+            return res.status(400).json({error: 'fill out the empty field'})
+        }
+
+        // finding email
+        const userLogin = await User.findOne({email:email})
+
+        if(email == userLogin.email && password == userLogin.password){
+            res.json({message: 'user signin successfully'})
+        }
+        
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({error: 'signin not successful'})
+    }
+})
+
+
+
+const middleware = (req, res, next) => {
+    console.log(`hello from middleware`);
+    next()
+}
+
+router.get("/about", middleware, (req,res)=>{
     res.send(`Hello from about`)
     console.log(`hello from about`);
 })
