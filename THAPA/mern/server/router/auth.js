@@ -87,11 +87,20 @@ router.post('/signin', async (req, res)=>{
         const userLogin = await User.findOne({email:email})
 
         if (userLogin) {
+            // comparing password
             const isMatch = await bcrypt.compare(password, userLogin.password)
 
+            // generate token
             const token = await userLogin.generateAuthToken()
             console.log(token);
 
+            // generate token
+            res.cookie('jwtoken', token, {
+                expires: new Date(Date.now() + 25892000000),
+                httpOnly:true
+            })
+
+            // password checking
             if(!isMatch){
             res.status(400).json({message: 'Invalid Credentials pass.'})
             }else{
